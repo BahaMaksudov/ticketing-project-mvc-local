@@ -2,9 +2,12 @@ package com.cydeo.service;
 
 import com.cydeo.dto.ProjectDTO;
 
-public interface ProjectService extends CrudService<ProjectDTO, String>{
+import java.util.List;
+
+public interface ProjectService extends CrudService<ProjectDTO, String> {
 
     void complete(ProjectDTO project);
 
+    List<ProjectDTO> findAllNonCompletedProjects();
 
 }

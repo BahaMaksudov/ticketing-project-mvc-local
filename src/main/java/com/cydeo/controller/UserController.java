@@ -1,6 +1,5 @@
 package com.cydeo.controller;
 
-import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
@@ -9,66 +8,61 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-    @RequestMapping("/user")
-    public class UserController {
+@RequestMapping("/user")
+public class UserController {
 
-        RoleService roleService;
-        UserService userService;
+    RoleService roleService;
+    UserService userService;
 
-        public UserController(RoleService roleService, UserService userService) {
-            this.roleService = roleService;
-            this.userService = userService;
-        }
+    public UserController(RoleService roleService, UserService userService) {
+        this.roleService = roleService;
+        this.userService = userService;
+    }
 
-        @GetMapping("/create")
-        public String createUser(Model model){
+    @GetMapping("/create")
+    public String createUser(Model model) {
 
-            model.addAttribute("user", new UserDTO());  //this is to create empty object (empty form)
-            model.addAttribute("roles", roleService.findAll());  //bring me all roles from DB - business logic
-            model.addAttribute("users", userService.findAll());
+        model.addAttribute("user", new UserDTO());
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("users", userService.findAll());
 
-            return "/user/create";
-
-        }
-
-        @PostMapping("/create")
-        public String insertUser(@ModelAttribute("user") UserDTO user, Model model){
-
-            model.addAttribute("user", new UserDTO()); //empty object need to be added (to show empty form in webpage)
-            model.addAttribute("roles", roleService.findAll());  //bring me all roles from DB - business logic
-
-            userService.save(user);
-            model.addAttribute("users", userService.findAll());
+        return "/user/create";
+    }
 
 
- //           return "/user/create"; //create.html needs : user object (empty), roles attribute holding roles, users
-            return "redirect:/user/create";
+    @PostMapping("/create")
+    public String insertUser(@ModelAttribute("user") UserDTO user, Model model) {
 
-        }
+        userService.save(user);
 
-@GetMapping("/update/{username}")
-        public String editUser(@PathVariable("username") String username, Model model){
+        return "redirect:/user/create";
 
-    model.addAttribute("user", userService.findById(username));
-    model.addAttribute("roles", roleService.findAll());  //bring me all roles from DB - business logic
-    model.addAttribute("users", userService.findAll());
+    }
 
+    @GetMapping("/update/{username}")
+    public String editUser(@PathVariable("username") String username, Model model) {
 
-            return "/user/update";
-
-}
-
-@PostMapping("/update")
-public String updateUser(UserDTO user){
+        model.addAttribute("user", userService.findById(username));
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("users", userService.findAll());
 
 
-            userService.update(user);
+        return "/user/update";
 
-            return "redirect:/user/create";
-}
+    }
+
+    @PostMapping("/update")
+    public String updateUser(UserDTO user) {
+
+        userService.update(user);
+
+        return "redirect:/user/create";
+
+    }
+
 
     @GetMapping("/delete/{username}")
-    public String deleteUser(@PathVariable("username") String username){
+    public String deleteUser(@PathVariable("username") String username) {
 
         userService.deleteById(username);
 
@@ -76,7 +70,4 @@ public String updateUser(UserDTO user){
     }
 
 
-
-
 }
-

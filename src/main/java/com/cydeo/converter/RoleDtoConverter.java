@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 @ConfigurationPropertiesBinding
 public class RoleDtoConverter implements Converter<String, RoleDTO> {
 
-
     RoleService roleService;
 
+    //injection
     public RoleDtoConverter(RoleService roleService) {
         this.roleService = roleService;
     }
@@ -22,4 +22,5 @@ public class RoleDtoConverter implements Converter<String, RoleDTO> {
     public RoleDTO convert(String source) {
         return roleService.findById(Long.parseLong(source));
     }
+
 }
